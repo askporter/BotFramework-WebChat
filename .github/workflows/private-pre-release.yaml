@@ -1,0 +1,182 @@
+name: private-pre-release
+on: [workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checking out ${{ github.ref }}
+        uses: actions/checkout@v2
+
+      - run: npx version-from-git --no-git-tag-version
+
+      - run: npm ci --no-production
+
+      - name: Propagate versions
+        run: node_modules/.bin/lerna version --exact --force-publish --no-git-tag-version --no-push --yes `cat package.json | jq -r .version`
+
+      - run: npm run bootstrap
+
+      - run: npm run build
+        env:
+          NODE_ENV: production
+
+      # ======--
+      # (Setup Node) >>
+      #
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          registry-url: https://npm.pkg.github.com/
+          scope: '@${{ github.repository_owner }}'
+
+      # ======--
+      # (API) >>
+      #
+      - name: (API) >> Generate new package name
+        run: |
+          cd packages/api
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+
+      - name: (API) >> Set environment variables
+        run: |
+          echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
+          echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
+          echo "package_homepage_url=https://github.com/${{ github.repository }}/tree/main/packages/component#readme" >> $GITHUB_ENV
+
+      - name: (API) >> Modify package.json
+        run: |
+          cd packages/api
+          cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
+          echo "$(cat package.json | jq -r '.name')"
+      
+      - name: (API) >> Publish
+        run: |
+          cd packages/api
+          npm publish
+          ls *.tgz
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ======--
+      # (BUNDLE) >>
+      #
+      - name: (Bundle) >> Generate new package name
+        run: |
+          cd packages/bundle
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+
+      - name: (Bundle) >> Set environment variables
+        run: |
+          echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
+          echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
+          echo "package_homepage_url=https://github.com/${{ github.repository }}/tree/main/packages/component#readme" >> $GITHUB_ENV
+
+      - name: (Bundle) >> Modify package.json
+        run: |
+          cd packages/bundle
+          cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
+          echo "$(cat package.json | jq -r '.name')"
+
+      - name: (Bundle) >> Publish
+        run: |
+          cd packages/bundle
+          npm publish
+          ls *.tgz
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ======--
+      # (COMPONENT) >>
+      #
+      - name: (Component) >> Generate new package name
+        run: |
+          cd packages/component
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+
+      - name: (Component) >> Set environment variables
+        run: |
+          echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
+          echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
+          echo "package_homepage_url=https://github.com/${{ github.repository }}/tree/main/packages/component#readme" >> $GITHUB_ENV
+
+      - name: (Component) >> Modify package.json
+        run: |
+          cd packages/component
+          cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
+          echo "$(cat package.json | jq -r '.name')"
+
+      - name: (Component) >> Publish
+        run: |
+          cd packages/component
+          npm publish
+          ls *.tgz
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ======--
+      # (CORE) >>
+      #
+      - name: (Core) >> Generate new package name
+        run: |
+          cd packages/core
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+
+      - name: (Core) >> Set environment variables
+        run: |
+          echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
+          echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
+          echo "package_homepage_url=https://github.com/${{ github.repository }}/tree/main/packages/component#readme" >> $GITHUB_ENV
+
+      - name: (Core) >> Modify package.json
+        run: |
+          cd packages/core
+          cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
+          echo "$(cat package.json | jq -r '.name')"
+
+      - name: (Core) >> Publish
+        run: |
+          cd packages/core
+          npm publish
+          ls *.tgz
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ======--
+      # (DLSPEECH) >>
+      #
+      - name: (DLSpeech) >> Generate new package name
+        run: |
+          cd packages/directlinespeech
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+
+      - name: (DLSpeech) >> Set environment variables
+        run: |
+          echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
+          echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
+          echo "package_homepage_url=https://github.com/${{ github.repository }}/tree/main/packages/component#readme" >> $GITHUB_ENV
+
+      - name: (DLSpeech) >> Modify package.json
+        run: |
+          cd packages/directlinespeech
+          cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
+          echo "$(cat package.json | jq -r '.name')"
+
+      - name: (DLSpeech) >> Publish
+        run: |
+          cd packages/directlinespeech
+          npm publish
+          ls *.tgz
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
