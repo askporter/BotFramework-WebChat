@@ -56,7 +56,6 @@ jobs:
         run: |
           cd packages/api
           npm publish
-          ls *.tgz
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -86,7 +85,6 @@ jobs:
         run: |
           cd packages/bundle
           npm publish
-          ls *.tgz
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -116,7 +114,6 @@ jobs:
         run: |
           cd packages/component
           npm publish
-          ls *.tgz
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -146,7 +143,6 @@ jobs:
         run: |
           cd packages/core
           npm publish
-          ls *.tgz
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -176,7 +172,6 @@ jobs:
         run: |
           cd packages/directlinespeech
           npm publish
-          ls *.tgz
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
