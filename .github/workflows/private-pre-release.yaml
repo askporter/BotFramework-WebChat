@@ -37,7 +37,7 @@ jobs:
       - name: (API) >> Set name and env variables
         run: |
           cd packages/api
-          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq --unbuffered -r '.name')" >> $GITHUB_ENV
           echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
           echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
@@ -51,7 +51,6 @@ jobs:
       - name: (API) >> Publish
         run: |
           cd packages/api
-          cat package.json
           npm publish
         env:
           CI: true
@@ -63,7 +62,7 @@ jobs:
       - name: (Bundle) >> Set name and env variables
         run: |
           cd packages/bundle
-          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq --unbuffered -r '.name')" >> $GITHUB_ENV
           echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
           echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
@@ -82,7 +81,6 @@ jobs:
       - name: (Bundle) >> Publish
         run: |
           cd packages/bundle
-          cat package.json
           npm publish
         env:
           CI: true
@@ -94,7 +92,7 @@ jobs:
       - name: (Component) >> Set name and env variables
         run: |
           cd packages/component
-          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq --unbuffered -r '.name')" >> $GITHUB_ENV
           echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
           echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
@@ -108,7 +106,6 @@ jobs:
       - name: (Component) >> Publish
         run: |
           cd packages/component
-          cat package.json
           npm publish
         env:
           CI: true
@@ -120,7 +117,7 @@ jobs:
       - name: (Core) >> Set name and env variables
         run: |
           cd packages/core
-          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq --unbuffered -r '.name')" >> $GITHUB_ENV
           echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
           echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
@@ -145,7 +142,7 @@ jobs:
       - name: (DLSpeech) >> Set name and env variables
         run: |
           cd packages/directlinespeech
-          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
+          echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq --unbuffered -r '.name')" >> $GITHUB_ENV
           echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
           echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
@@ -159,7 +156,6 @@ jobs:
       - name: (DLSpeech) >> Publish
         run: |
           cd packages/directlinespeech
-          cat package.json
           npm publish
         env:
           CI: true
