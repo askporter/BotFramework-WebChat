@@ -47,7 +47,12 @@ jobs:
         run: |
           cd packages/api
           cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
-      
+
+      - name: (API) >> Scope dependencies
+        run: |
+          cd packages/api
+          cat package.json | jq --unbuffered --arg package_scope "@${{ github.repository_owner }}/" '.dependencies |= with_entries( if (.key | contains("botframework-") and (contains("directlinejs") | not)) then .key |= $package_scope + . else . end)' --indent 2 | tee package.json
+
       - name: (API) >> Publish
         run: |
           cd packages/api
@@ -73,7 +78,7 @@ jobs:
           cd packages/bundle
           cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
 
-      - name: (Bundle (only)) >> Scope dependencies
+      - name: (Bundle) >> Scope dependencies
         run: |
           cd packages/bundle
           cat package.json | jq --unbuffered --arg package_scope "@${{ github.repository_owner }}/" '.dependencies |= with_entries( if (.key | contains("botframework-") and (contains("directlinejs") | not)) then .key |= $package_scope + . else . end)' --indent 2 | tee package.json
@@ -102,6 +107,11 @@ jobs:
         run: |
           cd packages/component
           cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
+
+      - name: (Component) >> Scope dependencies
+        run: |
+          cd packages/component
+          cat package.json | jq --unbuffered --arg package_scope "@${{ github.repository_owner }}/" '.dependencies |= with_entries( if (.key | contains("botframework-") and (contains("directlinejs") | not)) then .key |= $package_scope + . else . end)' --indent 2 | tee package.json
 
       - name: (Component) >> Publish
         run: |
