@@ -34,13 +34,10 @@ jobs:
       # ======--
       # (API) >>
       #
-      - name: (API) >> Generate new package name
+      - name: (API) >> Set name and env variables
         run: |
           cd packages/api
           echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
-
-      - name: (API) >> Set environment variables
-        run: |
           echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
           echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
@@ -50,12 +47,12 @@ jobs:
         run: |
           cd packages/api
           cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
-          echo "$(cat package.json | jq -r '.name')"
       
       - name: (API) >> Publish
         run: |
           cd packages/api
-          npm publish
+          cat package.json
+        # npm publish
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -63,12 +60,6 @@ jobs:
       # ======--
       # (BUNDLE) >>
       #
-      # Need 
-      # botframework-directlinespeech-sdk
-      # botframework-webchat-api
-      # botframework-webchat-component
-      # botframework-webchat-core
-      # with_entries( if .key | contains("-") then .key |= sub("-";".") else . end)
       - name: (Bundle) >> Set name and env variables
         run: |
           cd packages/bundle
@@ -91,7 +82,8 @@ jobs:
       - name: (Bundle) >> Publish
         run: |
           cd packages/bundle
-          npm publish
+          cat package.json
+        # npm publish
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -99,13 +91,10 @@ jobs:
       # ======--
       # (COMPONENT) >>
       #
-      - name: (Component) >> Generate new package name
+      - name: (Component) >> Set name and env variables
         run: |
           cd packages/component
           echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
-
-      - name: (Component) >> Set environment variables
-        run: |
           echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
           echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
@@ -115,12 +104,12 @@ jobs:
         run: |
           cd packages/component
           cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
-          echo "$(cat package.json | jq -r '.name')"
 
       - name: (Component) >> Publish
         run: |
           cd packages/component
-          npm publish
+          cat package.json
+        # npm publish
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -128,13 +117,10 @@ jobs:
       # ======--
       # (CORE) >>
       #
-      - name: (Core) >> Generate new package name
+      - name: (Core) >> Set name and env variables
         run: |
           cd packages/core
           echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
-
-      - name: (Core) >> Set environment variables
-        run: |
           echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
           echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
@@ -144,7 +130,6 @@ jobs:
         run: |
           cd packages/core
           cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
-          echo "$(cat package.json | jq -r '.name')"
 
       - name: (Core) >> Publish
         run: |
@@ -157,13 +142,10 @@ jobs:
       # ======--
       # (DLSPEECH) >>
       #
-      - name: (DLSpeech) >> Generate new package name
+      - name: (DLSpeech) >> Set name and env variables
         run: |
           cd packages/directlinespeech
           echo "package_name=@${{ github.repository_owner }}/$(cat package.json | jq -r '.name')" >> $GITHUB_ENV
-
-      - name: (DLSpeech) >> Set environment variables
-        run: |
           echo "package_registry=https://npm.pkg.github.com/@${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "package_repo_url=git://github.com/${{ github.repository }}.git" >> $GITHUB_ENV
           echo "package_bugs_url=https://github.com/${{ github.repository }}/issues" >> $GITHUB_ENV
@@ -173,12 +155,12 @@ jobs:
         run: |
           cd packages/directlinespeech
           cat package.json | jq --unbuffered --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url' --indent 2 | tee package.json
-          echo "$(cat package.json | jq -r '.name')"
 
       - name: (DLSpeech) >> Publish
         run: |
           cd packages/directlinespeech
-          npm publish
+          cat package.json
+        # npm publish
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
