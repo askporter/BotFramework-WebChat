@@ -48,7 +48,7 @@ jobs:
       - name: (API) >> Modify package.json
         run: |
           cd packages/api
-          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}".name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
+          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
 
       - name: (API) >> Publish
         run: |
@@ -73,7 +73,7 @@ jobs:
       - name: (Bundle) >> Modify package.json
         run: |
           cd packages/bundle
-          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}".name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
+          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
 
       - name: (Bundle) >> Publish
         run: |
@@ -98,7 +98,7 @@ jobs:
       - name: (Component) >> Modify package.json
         run: |
           cd packages/component
-          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}".name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
+          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
 
       - name: (Component) >> Publish
         run: |
@@ -123,7 +123,7 @@ jobs:
       - name: (Core) >> Modify package.json
         run: |
           cd packages/core
-          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}".name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
+          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
 
       - name: (Core) >> Publish
         run: |
@@ -148,7 +148,7 @@ jobs:
       - name: (DLSpeech) >> Modify package.json
         run: |
           cd packages/directlinespeech
-          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}".name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
+          jq --unbuffered --indent 2 --arg package_name "${{ env.package_name }}" --arg package_access "restricted" --arg package_registry "${{ env.package_registry }}" --arg package_repo_url "${{ env.package_repo_url }}" --arg package_bugs_url "${{ env.package_bugs_url }}" --arg package_homepage_url "${{ env.package_homepage_url }}" '.name = $package_name | .publishConfig.access = $package_access | .publishConfig.registry = $package_registry | .repository.url = $package_repo_url | .bugs.url = $package_bugs_url | .homepage = $package_homepage_url | .dependencies |= with_entries( if ( .key | contains("botframework-") and ( contains("directlinejs" ) | not )) then .key |= $package_scope + . else . end)' package.json > temp.json && mv temp.json package.json
       - name: (DLSpeech) >> Publish
         run: |
           cd packages/directlinespeech
