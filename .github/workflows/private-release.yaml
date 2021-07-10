@@ -61,10 +61,7 @@ jobs:
            .repository.url = $package_repo_url |
            .bugs.url = $package_bugs_url |
            .homepage = $package_homepage_url |
-           .dependencies |= with_entries(
-            if (.key | contains("botframework-") and (contains("directlinejs") | not))
-            then .key |= $package_scope + . else . end
-           )
+           .dependencies |= with_entries(if (.key | contains("botframework-") and (contains("directlinejs") | not)) then .key |= $package_scope + . else . end)
           ' package.json > temp.json && mv temp.json package.json
 
       - name: (API) >> Publish
@@ -103,10 +100,7 @@ jobs:
            .repository.url = $package_repo_url |
            .bugs.url = $package_bugs_url |
            .homepage = $package_homepage_url |
-           .dependencies |= with_entries(
-            if (.key | contains("botframework-") and (contains("directlinejs") | not))
-            then .key |= $package_scope + . else . end
-           )
+           .dependencies |= with_entries(if (.key | contains("botframework-") and (contains("directlinejs") | not)) then .key |= $package_scope + . else . end)
           ' package.json > temp.json && mv temp.json package.json
 
       - name: (Bundle) >> Publish
@@ -145,10 +139,7 @@ jobs:
            .repository.url = $package_repo_url |
            .bugs.url = $package_bugs_url |
            .homepage = $package_homepage_url |
-           .dependencies |= with_entries(
-            if (.key | contains("botframework-") and (contains("directlinejs") | not))
-            then .key |= $package_scope + . else . end
-           )
+           .dependencies |= with_entries(if (.key | contains("botframework-") and (contains("directlinejs") | not)) then .key |= $package_scope + . else . end)
           ' package.json > temp.json && mv temp.json package.json
 
       - name: (Component) >> Publish
@@ -187,10 +178,7 @@ jobs:
            .repository.url = $package_repo_url |
            .bugs.url = $package_bugs_url |
            .homepage = $package_homepage_url |
-           .dependencies |= with_entries(
-            if (.key | contains("botframework-") and (contains("directlinejs") | not))
-            then .key |= $package_scope + . else . end
-           )
+           .dependencies |= with_entries(if (.key | contains("botframework-") and (contains("directlinejs") | not)) then .key |= $package_scope + . else . end)
           ' package.json > temp.json && mv temp.json package.json
 
       - name: (Core) >> Publish
@@ -229,10 +217,7 @@ jobs:
            .repository.url = $package_repo_url |
            .bugs.url = $package_bugs_url |
            .homepage = $package_homepage_url |
-           .dependencies |= with_entries(
-            if (.key | contains("botframework-") and (contains("directlinejs") | not))
-            then .key |= $package_scope + . else . end
-           )
+           .dependencies |= with_entries(if (.key | contains("botframework-") and (contains("directlinejs") | not)) then .key |= $package_scope + . else . end)
           ' package.json > temp.json && mv temp.json package.json
 
       - name: (DLSpeech) >> Publish
